@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="TestNg Test" default="run" basedir=".">
+
+	<target name="cleanup">
+		<delete dir="test-output" />
+	</target>
+
+	<target name="createdir" depends="cleanup">
+		<mkdir dir="bin" />
+	</target>
+
+	<path id="classpath">
+		<pathelement location="bin" />
+		<fileset dir="Libs">
+			<include name="*.jar" />
+		</fileset>
+	</path>
+
+	<target name="classpathset" depends="createdir">
+		<javac srcdir="src" destdir="bin" classpathref="classpath">
+		</javac>
+	</target>
+
+	<taskdef name="testng" classname="org.testng.TestNGAntTask" classpathref="classpath" />
+
+	<target name="run" depends="classpathset">
+		<testng outputdir="Reports" classpathref="classpath" useDefaultListeners="true">
+			<xmlfileset dir="TestSuite" includes="testng.xml" />
+		</testng>
+	</target>
+
+</project>
